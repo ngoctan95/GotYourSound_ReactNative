@@ -5,6 +5,7 @@ import {Icon, Button} from 'react-native-elements';
 import MainScreen from '../screens/MainScreen/MainScreen';
 import SplashScreen from '../screens/SplashScreen/SplashScreen';
 import ListSoundScreen from '../screens/ListSoundScreen/ListSoundScreen';
+import ConfigurationScreen from '../screens/ConfigurationScreen/ConfigurationScreen';
 
 export const MainScreenStack = StackNavigator({
     MainScreen: {
@@ -24,6 +25,15 @@ export const ListSoundScreenStack = StackNavigator({
         }),
     },
 });
+export const ConfigurationScreenStack = StackNavigator({
+    ConfigurationScreen:{
+        screen: ConfigurationScreen,
+        navigationOptions:({navigation})=>({
+            title:'Configuration',
+            headerTitle:'Configurations'
+        })
+    }
+})
 export const SplashScreenStack = StackNavigator({
     SplashScreen:{
         screen:SplashScreen,
@@ -37,17 +47,27 @@ export const TabNav = TabNavigator({
     MainScreen:{
         screen: MainScreenStack,
         navigationOptions:{
-            tabBarLabel : ''
-            // tabBarIcon: <Icon name="home" color={"red"} size={35}></Icon>
+            tabBarLabel : 'Yah',
+            tabBarIcon:({tintColor})=> <Icon name="ios-musical-note" color={tintColor} size={25} type='ionicon'></Icon>,
+            tabBarOptions:{activeTintColor:'orange'}
         },
     },
     ListSoundScreen:{
         screen: ListSoundScreenStack,
         navigationOptions:{
-            tabBarLabel:'Sound List'
-            // tabBarIcon: <Icon name="music" color={"red"} size={35}></Icon>
+            tabBarLabel:'Listed',
+            tabBarIcon:({tintColor})=> <Icon name="ios-list" color={tintColor} size={30} type='ionicon'></Icon>,
+            tabBarOptions:{activeTintColor:'orange'}
         },
     },
+    ConfigurationScreen:{
+        screen:ConfigurationScreenStack,
+        navigationOptions:{
+            tabBarLabel:'Setting ',
+            tabBarIcon:({tintColor})=> <Icon name="ios-construct" color={tintColor} size={25} type={'ionicon'}/>,
+            tabBarOptions:{activeTintColor:'orange'}
+        }
+    }
 });
 
 export const Root = StackNavigator({

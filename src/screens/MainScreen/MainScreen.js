@@ -3,8 +3,9 @@ import {
     Text,
     View
 } from 'react-native';
-
-export default class MainScreen extends Component{
+import {connect} from 'react-redux';
+import * as actions from '../../actions/HomeActions/HomeActions';
+class MainScreen extends Component{
     render(){
         return(
             <View>
@@ -13,3 +14,10 @@ export default class MainScreen extends Component{
         )
     }
 }
+const mapStateToProps=({state,MainReducer})=>{
+    return{
+        state,
+        MainReducer
+    }
+}
+export default connect(mapStateToProps,actions)(MainScreen);
