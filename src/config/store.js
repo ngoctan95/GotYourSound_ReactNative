@@ -9,11 +9,11 @@ import logger from 'redux-logger';
 import {compose,applyMiddleware,createStore,combineReducers} from 'redux';
 
 const sagaMiddleware=createSagaMiddleware();
-// const middleWare =[sagaMiddleware,logger];
+const middleWare =[sagaMiddleware,logger];
 let rootReducer =combineReducers({
     MainReducer,
     ListSoundReducer
 })
 const store = compose(applyMiddleware(...middleWare))(createStore);
 export default createStore(rootReducer,applyMiddleware(sagaMiddleware));
-sagaMiddleware.run();
+// sagaMiddleware.run();
