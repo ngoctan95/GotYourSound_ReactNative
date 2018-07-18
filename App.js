@@ -13,6 +13,10 @@ import {Provider} from 'react-redux';
 import store from './src/config/store';
 
 export default class App extends Component {
+  componentDidMount(){
+    //Disable the yeallow warning.
+    console.disableYellowBox = true;
+  }
   render() {
     return (
       <Provider store={store}>
