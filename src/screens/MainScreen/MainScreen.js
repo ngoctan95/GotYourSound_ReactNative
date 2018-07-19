@@ -6,6 +6,9 @@ import {
 import {connect} from 'react-redux';
 import * as actions from '../../actions/HomeActions/HomeActions';
 class MainScreen extends Component{
+    componentWillMount(){
+        console.log("Main _ Willmount",this.props);
+    }
     render(){
         return(
             <View>
@@ -14,9 +17,8 @@ class MainScreen extends Component{
         )
     }
 }
-const mapStateToProps=({state,MainReducer})=>{
+const mapStateToProps=({MainReducer})=>{
     return{
-        state,
         MainReducer
     }
 }
