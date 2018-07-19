@@ -32,13 +32,16 @@ const nullImg={
         }
      }
      componentDidMount(){
-        
+        console.log("ListSound _ Willmount",this.props);
+        this.props.loadingSoundLS();
      }
     componentWillMount(){
-        console.log("ListSound _ Willmount",this.props);
+      
+    }
+    componentWillReceiveProps=(nextProps)=>{
+        console.log("nextProps",nextProps);
     }
     _renderListItemHorizontal=(item)=>{
-        // console.log("horizontal",item.item.img);
         return(
             <View style={styles.horizontalContainer}>
                 <Image source={{uri : item.item.img!=null?item.item.img:nullImg.nil}}
@@ -67,7 +70,6 @@ const nullImg={
                     <FlatList 
                         showsHorizontalScrollIndicator={false}
                          data={soundData[item.index]["data"]} 
-                        // data={null}
                         renderItem={ this._renderListItemHorizontal }
                         horizontal={true}/>
                 </View>
@@ -85,11 +87,11 @@ const nullImg={
     render(){
         return(
             <View style={styles.mainContainer}>
-                {!this.props.ListSoundReducer.isLoading?
+                {this.props.ListSoundReducer.isLoading?
                     this._renderActivityIndicator():
-                    <FlatList 
+                    <FlatList   
                         style={{flex:1}} 
-                        data={soundData} 
+                        data={this.props.ListSoundReducer.dataSound} 
                         renderItem={(item,index)=> this._renderListItemVertical(item,index) }/>
                 }
             </View>
@@ -98,7 +100,7 @@ const nullImg={
 }
 const mapStateToProps=({ListSoundReducer})=>{
     return{
-        ListSoundReducer
+        ListSoundReducer 
     }
 }
 export default connect(mapStateToProps,actions)(ListSoundScreen);
