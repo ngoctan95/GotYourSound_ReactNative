@@ -52,7 +52,7 @@ const nullImg={
         )
     }
     _renderListItemVertical=(item,index)=>{
-        console.log("item",item); 
+        // console.log("item",item); 
         return(
             <View>
                 <View style={styles.verticalContainerTitle}>
@@ -69,15 +69,16 @@ const nullImg={
                 <View style={styles.horizontalViewContainer}>
                     <FlatList 
                         showsHorizontalScrollIndicator={false}
-                         data={soundData[item.index]["data"]} 
+                        data={soundData[item.index]["data"]} 
                         renderItem={ this._renderListItemHorizontal }
+                        keyExtractor={(item,index)=>index.toString()}
                         horizontal={true}/>
                 </View>
             </View>
         )
     }
     _renderActivityIndicator(){
-        return(
+        return( 
             <View style={styles.activityIndicatorContainer}>
                 <Text style={styles.titleActivityIndicator}>Loading</Text>
                 <ActivityIndicator animating={true} size="large"/>
@@ -92,6 +93,7 @@ const nullImg={
                     <FlatList   
                         style={{flex:1}} 
                         data={this.props.ListSoundReducer.dataSound} 
+                        keyExtractor={(item,index)=>index.toString()}
                         renderItem={(item,index)=> this._renderListItemVertical(item,index) }/>
                 }
             </View>
