@@ -28,9 +28,16 @@ export const deSelectedItem=(item)=>{
         payload:item
     }
 }
-export const tappedItem=(item)=>{
+export const tappedItem=(item, isPlaying)=>{
     return{
         type:types.LS_TAPPED_ITEM,
-        payload:item
+        payload:item,
+        isPlaying:isPlaying
+    }
+}
+export const playTappedItem=(item)=>{
+    return{
+        type:types.LS_PLAY_TAPPED_ITEM,
+        payload:item,
     }
 }
