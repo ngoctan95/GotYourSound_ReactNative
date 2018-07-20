@@ -4,12 +4,14 @@ const INITSTATE={
     dataSound:null,
     error:'',
     itemSelected:null,
+    isPlaying:false,
 }
 export default (state=INITSTATE,action)=>{
     switch(action.type){
         case types.LS_LOADING_SOUND:{
             return{
-                isLoading:true
+                isLoading:true,
+                isPlaying:false,
             }
         }
         case types.LS_LOADED_SOUND:{
@@ -37,7 +39,14 @@ export default (state=INITSTATE,action)=>{
         }
         case types.LS_TAPPED_ITEM:{
             return{
-                itemSelected:action.payload
+                itemSelected:action.payload,
+                isPlaying:!INITSTATE.isPlaying
+            }
+        }
+        case types.LS_PLAY_TAPPED_ITEM:{
+            return{
+                itemSelected:action.payload,
+                isPlaying:true
             }
         }
         default:{

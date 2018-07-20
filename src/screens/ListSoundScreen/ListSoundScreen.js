@@ -14,7 +14,7 @@ import  {connect} from 'react-redux';
 import * as actions from '../../actions/ListSoundActions/ListSoundActions';
 import ListSoundReducer from '../../reducers/ListSoundReducer/ListSoundReducer';
 import soundData from '../../constant/sound_info.json';
-
+import ListItem from '../../components/ListSound/ListItem';
 const soundsStorage={
     guitar:require('../../assets/sounds/guitar.mp3'),
     rain:require('../../assets/sounds/rain.mp3'),
@@ -28,7 +28,8 @@ const nullImg={
      constructor(props){
         super(props);
         this.state={
-            
+            dataSound:[],
+            isPlaying:this.props.ListSoundReducer.isPlaying,
         }
      }
      componentDidMount(){
@@ -39,22 +40,36 @@ const nullImg={
       
     }
     componentWillReceiveProps=(nextProps)=>{
-        console.log("nextProps",nextProps);
+        // console.log("nextProps",nextProps);
+        /**
+         * Set dataSound for state changes.
+         */
+        if(this.state.dataSound.length==0){
+            if(nextProps.ListSoundReducer.dataSound!=null){
+                this.setState({
+                    dataSound:nextProps.ListSoundReducer.dataSound
+                })
+            }
+        }
+        /**
+         * Set playing state for item sound.
+         */
+        if(nextProps.ListSoundReducer.isPlaying){
+            this.setState({
+                isPlaying:nextProps.ListSoundReducer.isPlaying
+            })
+        }
+        // console.log("state",this.state.isPlaying);
     }
     _renderListItemHorizontal=(item)=>{
         return(
-            <View style={styles.horizontalContainer}>
-                <Image source={{uri : item.item.img!=null?item.item.img:nullImg.nil}}
-                       resizeMethod={'scale'} 
-                       style={{width:150,height:120, borderTopLeftRadius:20,borderTopRightRadius:20}}/>
-                 <Text style={styles.titleItem}>{item.item.key}</Text>
-            </View>
+            <ListItem dataSound={item}/>
         )
     }
     _renderListItemVertical=(item,index)=>{
         // console.log("item",item); 
         return(
-            <View>
+            <View style={styles.mainContainer}>
                 <View style={styles.verticalContainerTitle}>
                     <View style={styles.verticalContainerTitleLeft}>
                         <Text style={{color:'#00aae1', fontSize:15}}>♫</Text>
@@ -66,14 +81,14 @@ const nullImg={
                         </TouchableOpacity>
                     </View>
                 </View>
-                <View style={styles.horizontalViewContainer}>
-                    <FlatList 
+                <View style={styles.horizontalViewContainer}> 
+                        <FlatList 
                         showsHorizontalScrollIndicator={false}
-                        data={soundData[item.index]["data"]} 
+                        data={this.state.dataSound[item.index]["data"]} 
                         renderItem={ this._renderListItemHorizontal }
                         keyExtractor={(item,index)=>index.toString()}
                         horizontal={true}/>
-                </View>
+                 </View>
             </View>
         )
     }
@@ -86,13 +101,14 @@ const nullImg={
         )
     }
     render(){
+        // console.log("render",this.props.ListSoundReducer);
         return(
             <View style={styles.mainContainer}>
                 {this.props.ListSoundReducer.isLoading?
                     this._renderActivityIndicator():
                     <FlatList   
                         style={{flex:1}} 
-                        data={this.props.ListSoundReducer.dataSound} 
+                        data={this.state.dataSound} 
                         keyExtractor={(item,index)=>index.toString()}
                         renderItem={(item,index)=> this._renderListItemVertical(item,index) }/>
                 }
@@ -111,7 +127,6 @@ const styles= StyleSheet.create({
     mainContainer:{
         flex:1,
         justifyContent:'center',
-        alignItems:'center'
     },
     verticalContainer:{
 
@@ -176,6 +191,7 @@ const styles= StyleSheet.create({
         backgroundColor:'white',
         borderRadius:20,
         justifyContent:'center',
+        alignContent:'center',
         alignSelf:'center',
         alignItems:'center'
     },
