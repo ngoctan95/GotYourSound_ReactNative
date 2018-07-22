@@ -37,18 +37,6 @@ export default (state=INITSTATE,action)=>{
                 itemSelected:action.payload,
             }
         }
-        case types.LS_TAPPED_ITEM:{
-            return{
-                itemSelected:action.payload,
-                isPlaying:!INITSTATE.isPlaying
-            }
-        }
-        case types.LS_PLAY_TAPPED_ITEM:{
-            return{
-                itemSelected:action.payload,
-                isPlaying:true
-            }
-        }
         default:{
             return state;
         }

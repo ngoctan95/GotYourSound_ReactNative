@@ -8,7 +8,7 @@ export default (state=INITSTATE,action)=>{
     switch (action.type){
         case types.LS_TAPPED_ITEM:{
             return {
-                itemSelected:action.payload,
+                itemSelected:action.isPlaying?action.payload:null,
                 isPlaying:action.isPlaying
             }
 

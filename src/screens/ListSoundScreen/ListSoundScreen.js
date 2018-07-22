@@ -15,6 +15,7 @@ import * as actions from '../../actions/ListSoundActions/ListSoundActions';
 import ListSoundReducer from '../../reducers/ListSoundReducer/ListSoundReducer';
 import soundData from '../../constant/sound_info.json';
 import ListItem from '../../components/ListSound/ListItem';
+import ListItemVertical from '../../components/ListSound/ListItemVertical';
 const soundsStorage={
     guitar:require('../../assets/sounds/guitar.mp3'),
     rain:require('../../assets/sounds/rain.mp3'),
@@ -70,7 +71,7 @@ const nullImg={
         // console.log("item",item); 
         return(
             <View style={styles.mainContainer}>
-                <View style={styles.verticalContainerTitle}>
+                {/* <View style={styles.verticalContainerTitle}>
                     <View style={styles.verticalContainerTitleLeft}>
                         <Text style={{color:'#00aae1', fontSize:15}}>♫</Text>
                         <Text style={styles.verticalTitle}>{item.item.title}</Text>
@@ -80,7 +81,8 @@ const nullImg={
                             <Text style={styles.verticalTitleMarginRight}>Show all</Text>
                         </TouchableOpacity>
                     </View>
-                </View>
+                </View> */}
+                <ListItemVertical data = {item}/>
                 <View style={styles.horizontalViewContainer}> 
                         <FlatList 
                         showsHorizontalScrollIndicator={false}
