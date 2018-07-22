@@ -6,7 +6,7 @@ function _loadDataSoundFromJson(){
         if (soundData){
             setTimeout(function(){
                 resolve(soundData)
-            },1500) 
+            },500) 
             
         }else{
             reject("No data found")
@@ -19,20 +19,32 @@ function _playItemAudioLS(item){
         if (item){
             if(item.isPlaying){
                 try{
-                    SoundPlayer.playSoundFile('guitar','mp3');
-                    SoundPlayer.onFinishPlaying((success:boolean)=>{
-                      SoundPlayer.unmount();  
-                    })
+                    SoundPlayer.playSoundFile('sound','mp3');
+                      SoundPlayer.onFinishedPlaying((success:boolean)=>{
+                        if(success){  
+                        resolve (true)
+                        }
+                      })
                 }catch(err){
                     console.log(`cannot play the sound file`, err);
                 }
             }else{
                 SoundPlayer.stop();
             }
-            
-            resolve(item)
         }else{
-            reject("Sound data got err")
+            console.log("Sound data got err");
+            reject("false");
+        }
+    })
+}
+function _stopItemAudioLS(item){
+    return new Promise((resolve,reject)=>{
+        try{
+            
+            SoundPlayer.stop();
+            resolve(item)
+        }catch(err){
+            reject(err)
         }
     })
 }
@@ -42,5 +54,8 @@ export const requestServiceLS={
     },
     playTappedItemLS(item){
         return _playItemAudioLS(item);
+    },
+    stopItemItemAudioLS(item){
+        return _stopItemAudioLS(item);
     }
 }

@@ -13,6 +13,11 @@ export default (state=INITSTATE,action)=>{
             }
 
         }
+        case types.LS_STOP_PLAY_TAPPED_ITEM:{
+            return{
+                isPlaying:false
+            }
+        }
         default:{
             return state;
         }

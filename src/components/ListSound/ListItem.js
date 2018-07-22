@@ -12,6 +12,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/ListSoundActions/ListSoundActions';
 import * as types from '../../actions/Types/types';
+const background_isPlaying = require("../../assets/images/gif_star.gif");
 
 class ListItem extends Component{
     constructor(props){
@@ -43,7 +44,7 @@ class ListItem extends Component{
     }
     _renderNoPlaying=(item)=>{
         return(
-                    <View style={styles.horizontalContainer}>
+                    <View style={styles.horizontalContainerNoPlaying}>
                         <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
                             resizeMethod={'scale'}   
                             style={{width:150,height:120, borderTopLeftRadius:20,borderTopRightRadius:20}}/>
@@ -51,20 +52,31 @@ class ListItem extends Component{
                     </View> 
         )
     }
+    _randomCount(){
+        return Math.floor(Math.random()*5)+1;
+    }
+    _random(width,height) {
+        // console.log("random",Math.floor(Math.random()*(width-20)) +(height-20));
+        var w=Math.floor(Math.random()*150) +1;
+        var h=Math.floor(Math.random()*120) +1;
+        var a={"w":w,"h":h};
+console.log(a);
+        return a;
+    }
     _renderPlaying=(item)=>{
         return(
-            <View style={styles.horizontalContainer}>
-                <View style={styles.containerPlaying}>
-                    <Ionicons name="ios-pause" type="ionicon" size={35} color="#f5f5f5" 
-                    style={{justifyContent:'center',alignSelf:'center'}}/>
-                </View>
-                <View style={styles.horizontalContainerAbsolute}>
-                    <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
-                        resizeMethod={'scale'}   
-                        style={{width:150,height:120, borderTopLeftRadius:20,borderTopRightRadius:20}}/>
-                    <Text style={styles.titleItem}>{item.key}</Text>
-                </View>
-            </View> 
+                <View style={styles.horizontalContainer}>
+                    <View style={styles.containerPlaying}>
+                        <Ionicons name="ios-pause" type="ionicon" size={35} color="#f5f5f5" 
+                            style={{justifyContent:'center',alignSelf:'center'}}/>
+                    </View>
+                    <View style={styles.horizontalContainerAbsolute}>
+                        <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
+                            resizeMethod={'scale'}   
+                            style={{width:150,height:120, borderTopLeftRadius:20,borderTopRightRadius:20}}/>
+                        <Text style={styles.titleItem}>{item.key}</Text>
+                    </View>
+                </View> 
         )
     }
     render(){
@@ -125,8 +137,21 @@ const styles= StyleSheet.create({
     horizontalContainer:{
         width:150,
         height:150, 
-        // borderWidth:1, 
-        // borderColor:'black',
+        shadowColor: '#000000',
+                shadowOffset: {
+                width: 3,
+                height: 3
+                },
+                shadowRadius: 20,
+                shadowOpacity: 1.0,
+        borderRadius:20,
+        margin:5,
+        overflow:'hidden',
+        // backgroundColor:'white'
+    },
+    horizontalContainerNoPlaying:{
+        width:150,
+        height:150, 
         borderRadius:20,
         margin:5,
         overflow:'hidden',
@@ -135,11 +160,9 @@ const styles= StyleSheet.create({
     horizontalContainerAbsolute:{
         width:150,
         height:150, 
-        // borderWidth:1, 
-        // borderColor:'black',
         borderRadius:20,
         overflow:'hidden',
-        backgroundColor:'white',
+        backgroundColor:'#00aae1',
         top:0,right:0,bottom:0,left:0
     },
     horizontalViewContainer:{
@@ -150,7 +173,8 @@ const styles= StyleSheet.create({
         justifyContent:'center',
         alignSelf:'center',
         fontSize:13,
-        marginTop:3
+        marginTop:3,
+        // backgroundColor:'#f5f5f5'
     },
     activityIndicatorContainer:{
         width:120,
