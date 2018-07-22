@@ -18,13 +18,19 @@ function _playItemAudioLS(item){
     return new Promise((resolve,reject)=>{
         if (item){
             if(item.isPlaying){
-                try{
-                    SoundPlayer.playSoundFile('sound','mp3');
+                try{ 
+                    if(item.payload.music!=null){
+                    SoundPlayer.stop();
+                    SoundPlayer.playSoundFile(item.payload.music,'mp3');
                       SoundPlayer.onFinishedPlaying((success:boolean)=>{
                         if(success){  
                         resolve (true)
                         }
                       })
+                    }else{
+                        alert("No file found for item :",item.payload.key);
+                        resolve (false);
+                    }
                 }catch(err){
                     console.log(`cannot play the sound file`, err);
                 }

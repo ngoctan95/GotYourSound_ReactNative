@@ -5,14 +5,12 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
-    FlatList,
-    ActivityIndicator
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/ListSoundActions/ListSoundActions';
 import * as types from '../../actions/Types/types';
-const background_isPlaying = require("../../assets/images/gif_star.gif");
+
 
 class ListItem extends Component{
     constructor(props){
@@ -44,12 +42,12 @@ class ListItem extends Component{
     }
     _renderNoPlaying=(item)=>{
         return(
-                    <View style={styles.horizontalContainerNoPlaying}>
-                        <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
-                            resizeMethod={'scale'}   
-                            style={{width:150,height:120, borderTopLeftRadius:20,borderTopRightRadius:20}}/>
-                        <Text style={styles.titleItem}>{item.key}</Text>
-                    </View> 
+            <View style={styles.horizontalContainerNoPlaying}>
+                <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
+                        resizeMethod={'scale'}   
+                        style={{width:150,height:120, borderTopLeftRadius:20,borderTopRightRadius:20}}/>
+                    <Text style={styles.titleItem}>{item.key}</Text>
+            </View> 
         )
     }
     _randomCount(){
@@ -60,7 +58,7 @@ class ListItem extends Component{
         var w=Math.floor(Math.random()*150) +1;
         var h=Math.floor(Math.random()*120) +1;
         var a={"w":w,"h":h};
-console.log(a);
+        console.log(a);
         return a;
     }
     _renderPlaying=(item)=>{
@@ -68,7 +66,12 @@ console.log(a);
                 <View style={styles.horizontalContainer}>
                     <View style={styles.containerPlaying}>
                         <Ionicons name="ios-pause" type="ionicon" size={35} color="#f5f5f5" 
-                            style={{justifyContent:'center',alignSelf:'center'}}/>
+                            style={{justifyContent:'center',alignSelf:'center',position:'absolute'}}/>
+                        <Image source={require('../../assets/images/raining-stars.gif')}
+                            style={{height:'100%', width: '100%',position:'absolute'}}
+                            resizeMethod='scale'
+                            
+                            zIndex={3}/>
                     </View>
                     <View style={styles.horizontalContainerAbsolute}>
                         <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
