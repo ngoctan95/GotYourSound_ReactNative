@@ -10,7 +10,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/ListSoundActions/ListSoundActions';
 import * as types from '../../actions/Types/types';
-
+import mp3Data from '../../constant/mp3_info.json';
 
 class ListItem extends Component{
     constructor(props){
@@ -19,11 +19,18 @@ class ListItem extends Component{
             isPlaying: ((this.props.SoundTappedReducer.itemSelected!=null &&
                 this.props.dataSound.item.key === this.props.SoundTappedReducer.itemSelected.key))?
                 nextProps.SoundTappedReducer.isPlaying:false,
+            animation:-1,
         }
     }
     componentWillMount(){
     }
     componentDidMount(){
+    }
+    componentWillUpdate(){
+        // this.setState({
+        //     animation:this._randomCount()
+        // })
+        
     }
     componentWillReceiveProps=(nextProps)=>{
        
@@ -50,8 +57,8 @@ class ListItem extends Component{
             </View> 
         )
     }
-    _randomCount(){
-        return Math.floor(Math.random()*5)+1;
+    _randomCount(min, max){
+        return Math.floor(Math.random()*2)+0;
     }
     _random(width,height) {
         // console.log("random",Math.floor(Math.random()*(width-20)) +(height-20));
@@ -62,15 +69,16 @@ class ListItem extends Component{
         return a;
     }
     _renderPlaying=(item)=>{
+        const a= this._randomCount();
+        console.log("render",mp3Data[a],a);
         return(
                 <View style={styles.horizontalContainer}>
                     <View style={styles.containerPlaying}>
                         <Ionicons name="ios-pause" type="ionicon" size={35} color="#f5f5f5" 
                             style={{justifyContent:'center',alignSelf:'center',position:'absolute'}}/>
-                        <Image source={require('../../assets/images/raining-stars.gif')}
+                        <Image source={{uri: mp3Data[a]["data"]}}
                             style={{height:'100%', width: '100%',position:'absolute'}}
                             resizeMethod='scale'
-                            
                             zIndex={3}/>
                     </View>
                     <View style={styles.horizontalContainerAbsolute}>
@@ -83,6 +91,7 @@ class ListItem extends Component{
         )
     }
     render(){
+        
         const {item}= this.props.dataSound;
         return(
             <TouchableOpacity onPress={()=>this._onPressItem(item)}>
