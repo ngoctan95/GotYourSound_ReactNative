@@ -41,3 +41,9 @@ export const playTappedItem=(item)=>{
         payload:item,
     }
 }
+export const stopTappedItem=(item)=>{
+    return{
+        type:types.LS_STOP_PLAY_TAPPED_ITEM,
+        isPlaying:false
+    }
+}

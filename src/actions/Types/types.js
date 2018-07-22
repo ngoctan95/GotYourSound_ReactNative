@@ -8,6 +8,7 @@ export const LS_SELECTED_ITEM="LS_SELECTED_ITEM";
 export const LS_TAPPED_ITEM="LS_TAPPED_ITEM"; //for testing the sound.
 export const LS_DE_SELECTED_ITEM="LS_DE_SELECTED_ITEM";
 export const LS_PLAY_TAPPED_ITEM="LS_PLAY_TAPPED_ITEM";
+export const LS_STOP_PLAY_TAPPED_ITEM="LS_STOP_PLAY_TAPPED_ITEM";
 /**
  * Main section
  */

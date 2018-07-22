@@ -3,7 +3,8 @@ import {
     put,
     takeEvery,
     call,
-    all
+    all,
+    takeLatest
 } from 'redux-saga/effects';
 import {requestServiceLS} from '../../services/ListSoundService/ListSoundServices';
 import * as actions from '../../actions/ListSoundActions/ListSoundActions';
@@ -22,9 +23,6 @@ export function* watchLoadDataAsync(action){
         yield put(actions.loadErrorSoundLS(err));
     }
 } 
-const watchLoadData = function* watchLoadData(){
-    yield takeEvery(types.LS_LOADING_SOUND,watchLoadDataAsync);
-}
 
 /**
  * 
@@ -32,22 +30,28 @@ const watchLoadData = function* watchLoadData(){
  */
 export function* watchPlayTappedItemAsync(item){
     try{
-        yield call (requestServiceLS.playTappedItemLS,item);
         yield put(actions.playTappedItem(item));
+        let isDone = yield call (requestServiceLS.playTappedItemLS,item);
+        yield put(actions.stopTappedItem(isDone));
     }catch(err){
         console.log("err",err);
     }
 }
-const watchPlayTappedItem=function* watchPlayTappedItem(){
-    yield takeEvery(types.LS_TAPPED_ITEM,watchPlayTappedItemAsync);
+
+
+export function* watchStopTappedItemAsync(item){
+    try{
+         yield call(requestServiceLS.stopItemItemAudioLS,item);
+    }catch(err){
+        console.log("err",err);
+    }
 }
 
 function* watchAll(){
     yield all([
-        // watchLoadData,
-        // watchPlayTappedItem
          takeEvery(types.LS_LOADING_SOUND,watchLoadDataAsync),
-         takeEvery(types.LS_TAPPED_ITEM,watchPlayTappedItemAsync)
+         takeEvery(types.LS_TAPPED_ITEM,watchPlayTappedItemAsync),
+         takeEvery(types.LS_STOP_PLAY_TAPPED_ITEM,watchStopTappedItemAsync),
     ])
 }
 export default watchAll;
