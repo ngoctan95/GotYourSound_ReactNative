@@ -19,19 +19,14 @@ class ListItem extends Component{
             isPlaying: ((this.props.SoundTappedReducer.itemSelected!=null &&
                 this.props.dataSound.item.key === this.props.SoundTappedReducer.itemSelected.key))?
                 nextProps.SoundTappedReducer.isPlaying:false,
-            animation:-1,
+            isLoadingItem:false,
         }
     }
     componentWillMount(){
     }
     componentDidMount(){
     }
-    componentWillUpdate(){
-        // this.setState({
-        //     animation:this._randomCount()
-        // })
-        
-    }
+    
     componentWillReceiveProps=(nextProps)=>{
        
         if(nextProps !=null){
@@ -58,7 +53,7 @@ class ListItem extends Component{
         )
     }
     _randomCount(min, max){
-        return Math.floor(Math.random()*2)+0;
+        return Math.floor(Math.random()*8)+0;
     }
     _random(width,height) {
         // console.log("random",Math.floor(Math.random()*(width-20)) +(height-20));
@@ -70,16 +65,20 @@ class ListItem extends Component{
     }
     _renderPlaying=(item)=>{
         const a= this._randomCount();
-        console.log("render",mp3Data[a],a);
+        console.log("render",mp3Data[a]);
         return(
                 <View style={styles.horizontalContainer}>
                     <View style={styles.containerPlaying}>
                         <Ionicons name="ios-pause" type="ionicon" size={35} color="#f5f5f5" 
                             style={{justifyContent:'center',alignSelf:'center',position:'absolute'}}/>
-                        <Image source={{uri: mp3Data[a]["data"]}}
-                            style={{height:'100%', width: '100%',position:'absolute'}}
-                            resizeMethod='scale'
-                            zIndex={3}/>
+                            {
+                                mp3Data[a]["data"]!=null?
+                                    <Image source={{uri: mp3Data[a]["data"]}}
+                                        style={{height:'100%', width: '100%',position:'absolute'}}
+                                        resizeMethod='scale'
+                                        zIndex={3}/>
+                                :null
+                            }
                     </View>
                     <View style={styles.horizontalContainerAbsolute}>
                         <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
