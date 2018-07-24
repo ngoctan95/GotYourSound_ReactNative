@@ -7,8 +7,8 @@
  */
 
 import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
-import {Root, TabNavs} from './src/config/router';
+import {AppState} from 'react-native';
+import {Root} from './src/config/router';
 import {Provider} from 'react-redux';
 import store from './src/config/store';
 
