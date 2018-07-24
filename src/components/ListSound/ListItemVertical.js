@@ -29,12 +29,6 @@ class ListItemVertical extends Component{
             <View style={styles.mainContainer}>
                 <View style={styles.verticalContainerTitle}>
                     <View style={styles.verticalContainerTitleLeft}>
-                        {/* {(this.props.itemSelected!=null && this.props.itemSelected.type == item.title)?
-                            <Image source={require('../../assets/images/gif_star.gif')}
-                            style={{height: width: '100%'}}
-                            resizeMode='cover'
-                            zIndex={-1}/>:null
-                        } */}
                         <Text style={{color:'#00aae1', fontSize:15}}>♫</Text>
                         <Text style={styles.verticalTitle}>{item.title}</Text>
                     </View>
@@ -45,7 +39,7 @@ class ListItemVertical extends Component{
                             maximumValue={100}
                             value={50}
                             step={1}
-                            style={{width:"100%"}}
+                            style={{height:25,width:"100%"}}
                             minimumTrackTintColor={"#6abd45"}
                             onValueChange={(value)=>this._onValueChange(value)}/>
                     </View>:null
@@ -73,7 +67,7 @@ const styles= StyleSheet.create({
         justifyContent:'center',
     },
     verticalContainerTitle:{
-        padding:10,
+        margin:10,
         fontSize:25,
         flexDirection:'row',
         justifyContent:'center',
