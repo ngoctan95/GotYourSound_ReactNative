@@ -7,20 +7,13 @@ import {
     StyleSheet,
     TouchableOpacity,
     Image,
-    ActivityIndicator
+    ActivityIndicator,
+    Animated
 } from 'react-native';
-import {Icon} from 'react-native-vector-icons/Ionicons';
 import  {connect} from 'react-redux';
 import * as actions from '../../actions/ListSoundActions/ListSoundActions';
-import ListSoundReducer from '../../reducers/ListSoundReducer/ListSoundReducer';
-import soundData from '../../constant/sound_info.json';
 import ListItem from '../../components/ListSound/ListItem';
 import ListItemVertical from '../../components/ListSound/ListItemVertical';
-const soundsStorage={
-    guitar:require('../../assets/sounds/guitar.mp3'),
-    rain:require('../../assets/sounds/rain.mp3'),
-    water:require('../../assets/sounds/water.mp3'),
-}
 const nullImg={
     nil:require("../../assets/images/nil.jpg"),
 }
@@ -31,14 +24,25 @@ const nullImg={
         this.state={
             dataSound:[],
             isPlaying:this.props.ListSoundReducer.isPlaying,
+            animIndicator:  new Animated.Value(0),
         }
      }
      componentDidMount(){
         console.log("ListSound _ Willmount",this.props);
         this.props.loadingSoundLS();
+
+        /**Do animation */
+        Animated.timing(
+            this.state.animIndicator,
+            {
+                fromValue:0,
+                toValue:1,
+                duration:1000
+            }
+        ).start();
      }
     componentWillMount(){
-      
+        console.log("render", new Date().toDateString());
     }
     componentWillReceiveProps=(nextProps)=>{
         // console.log("nextProps",nextProps);
@@ -60,7 +64,6 @@ const nullImg={
                 isPlaying:nextProps.ListSoundReducer.isPlaying
             })
         }
-        // console.log("state",this.state.isPlaying);
     }
     _renderListItemHorizontal=(item)=>{
         return(
@@ -68,20 +71,8 @@ const nullImg={
         )
     }
     _renderListItemVertical=(item,index)=>{
-        // console.log("item",item); 
         return(
             <View style={styles.mainContainer}>
-                {/* <View style={styles.verticalContainerTitle}>
-                    <View style={styles.verticalContainerTitleLeft}>
-                        <Text style={{color:'#00aae1', fontSize:15}}>♫</Text>
-                        <Text style={styles.verticalTitle}>{item.item.title}</Text>
-                    </View>
-                    <View style={styles.verticalContainerTitleRight}>
-                        <TouchableOpacity>
-                            <Text style={styles.verticalTitleMarginRight}>Show all</Text>
-                        </TouchableOpacity>
-                    </View>
-                </View> */}
                 <ListItemVertical data = {item}/>
                 <View style={styles.horizontalViewContainer}> 
                         <FlatList 
@@ -96,14 +87,13 @@ const nullImg={
     }
     _renderActivityIndicator(){
         return( 
-            <View style={styles.activityIndicatorContainer}>
+            <Animated.View style={{...styles.activityIndicatorContainer, opacity:this.state.animIndicator}}>
                 <Text style={styles.titleActivityIndicator}>Loading</Text>
                 <ActivityIndicator animating={true} size="large"/>
-            </View>
+            </Animated.View>
         )
     }
     render(){
-        // console.log("render",this.props.ListSoundReducer);
         return(
             <View style={styles.mainContainer}>
                 {this.props.ListSoundReducer.isLoading?
