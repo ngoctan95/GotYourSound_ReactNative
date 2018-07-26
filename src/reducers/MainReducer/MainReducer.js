@@ -5,10 +5,12 @@ const INITSTATE={
     error:'',
     itemSelected:null,
     isRemoveAll:false,
-    isPlay:false,
+    isPlaying:false,
     vol:50,
+    itemListSelected:[],
 }
 export default (state=INITSTATE,action)=>{
+    console.log("actionMain",action);
     switch(action.type){
         case types.M_LOADING_SOUND:{
             return{
@@ -53,6 +55,13 @@ export default (state=INITSTATE,action)=>{
         case types.M_CHANGE_VOL:{
             return{
                 vol:action.vol,
+            }
+        }
+        case types.LS_TAPPED_ITEM_FOR_STORAGING:{
+            console.log("payload----",action);
+            return{
+                ...state,
+                itemListSelected: [...action.itemListSelected,action.payload],
             }
         }
         default:{

@@ -27,16 +27,6 @@ export default (state=INITSTATE,action)=>{
                 isLoading:false
             }
         }
-        case types.LS_SELECTED_ITEM:{
-            return {
-                itemSelected:action.payload,
-            }
-        }
-        case types.LS_DE_SELECTED_ITEM:{
-            return{
-                itemSelected:action.payload,
-            }
-        }
         default:{
             return state;
         }

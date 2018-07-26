@@ -45,3 +45,10 @@ export const changeVolM=(vol)=>{
         payload:vol
     }
 }
+export const tappedItemForStoraging=(itemListSelected,item)=>{
+    return{
+        type:types.LS_TAPPED_ITEM_FOR_STORAGING,
+        payload:item,
+        itemListSelected:itemListSelected,
+    }
+}

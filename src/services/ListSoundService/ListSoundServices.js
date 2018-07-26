@@ -1,12 +1,16 @@
 import soundData from '../../constant/sound_info.json';
 import SoundPlayer from 'react-native-sound-player';
-
+import {
+    Alert 
+} from 'react-native';
+// import MusicControl from 'react-native-music-control';
+import Sound from 'react-native-sound';
 function _loadDataSoundFromJson(){
     return new Promise((resolve,reject)=>{
         if (soundData){
             setTimeout(function(){
                 resolve(soundData)
-            },500) 
+            },1500) 
             
         }else{
             reject("No data found")
@@ -20,26 +24,56 @@ function _playItemAudioLS(item){
             if(item.isPlaying){
                 try{ 
                     if(item.payload.music!=null){
-                    SoundPlayer.stop();
-                    SoundPlayer.playSoundFile(item.payload.music,'mp3');
-                      SoundPlayer.onFinishedPlaying((success:boolean)=>{
-                        if(success){  
-                        resolve (true)
-                        }
-                      })
+                        console.log(item.payload.music);
+                        Sound.setActive(false);
+                        Sound.setCategory("Playback");
+                        Sound.setActive(true);
+                        var whoosh = new Sound(item.payload.music.concat('.mp3'), Sound.MAIN_BUNDLE, (error) => {
+                            if (error) {
+                                Alert.alert(
+                                    'Failure',
+                                    'Got failure while loading this sound for you guy',
+                                    [],
+                                    { cancelable: false }
+                                  );
+                              resolve(false);
+                            }else{
+                                    whoosh.play((success)=>{
+                                        if (success) {
+                                            resolve(true);
+                                        } else {
+                                        //   console.log('playback failed due to audio decoding errors');
+                                        }
+                                    });
+                            }
+                          });
+                            
                     }else{
-                        alert("No file found for item :",item.payload.key);
+                        Alert.alert(
+                            'Failure',
+                            "No file found",
+                            [],
+                            { cancelable: false }
+                          );
                         resolve (false);
                     }
                 }catch(err){
-                    console.log(`cannot play the sound file`, err);
+                    Alert.alert(
+                        'Error',
+                        "Can not play this file",
+                        [],
+                        { cancelable: false }
+                      );
+                    resolve (false);
                 }
             }else{
-                SoundPlayer.stop();
+                Sound.setActive(false);
+                Sound.release();
+                resolve (false);
             }
         }else{
             console.log("Sound data got err");
-            reject("false");
+            resolve(false);
         }
     })
 }
@@ -47,10 +81,10 @@ function _stopItemAudioLS(item){
     return new Promise((resolve,reject)=>{
         try{
             
-            SoundPlayer.stop();
-            resolve(item)
+            Sound.setActive(false);
+            resolve(false);
         }catch(err){
-            reject(err)
+            reject(err);
         }
     })
 }

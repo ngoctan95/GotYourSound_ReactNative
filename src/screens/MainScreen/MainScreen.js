@@ -9,6 +9,12 @@ class MainScreen extends Component{
     componentWillMount(){
         console.log("Main _ Willmount",this.props);
     }
+    componentDidMount(){
+        console.log("MAINNNNNNNNNNNNN _didmount",this.props);
+    }
+    componentWillReceiveProps(nextProps){
+        console.log("MAINNNNNNNNNNN",nextProps);
+    }
     render(){
         return(
             <View>

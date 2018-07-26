@@ -5,10 +5,11 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
+    ActivityIndicator
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
-import * as actions from '../../actions/ListSoundActions/ListSoundActions';
+import * as actions from '../../actions/index';
 import * as types from '../../actions/Types/types';
 import mp3Data from '../../constant/mp3_info.json';
 
@@ -19,16 +20,11 @@ class ListItem extends Component{
             isPlaying: ((this.props.SoundTappedReducer.itemSelected!=null &&
                 this.props.dataSound.item.key === this.props.SoundTappedReducer.itemSelected.key))?
                 nextProps.SoundTappedReducer.isPlaying:false,
-            isLoadingItem:false,
+            itemListSelected:[],
+            }
         }
-    }
-    componentWillMount(){
-    }
-    componentDidMount(){
-    }
-    
     componentWillReceiveProps=(nextProps)=>{
-       
+       console.log("itemmmm",nextProps);
         if(nextProps !=null){
             if(nextProps.SoundTappedReducer!=null){
                 this.setState({
@@ -37,48 +33,34 @@ class ListItem extends Component{
                              nextProps.SoundTappedReducer.isPlaying:false
                 })
             }
+            if(nextProps.MainReducer.itemListSelected!=null){
+                this.setState({
+                    itemListSelected:nextProps.MainReducer.itemListSelected
+                })
+            }
         }
     }
     _onPressItem=(item)=>{
         this.props.tappedItem(item,!this.state.isPlaying) ;
     }
+    _onPressItemForStoraging=(item)=>{
+        this.props.tappedItemForStoraging(this.state.itemListSelected,item);
+    }
     _renderNoPlaying=(item)=>{
+        console.log("dadada",this.props.MainReducer.itemListSelected.findIndex(x =>x.key===item.key));
         return(
             <View style={styles.horizontalContainerNoPlaying}>
-                <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
-                        resizeMethod={'scale'}   
-                        style={{width:150,height:120, borderTopLeftRadius:20,borderTopRightRadius:20}}/>
-                    <Text style={styles.titleItem}>{item.key}</Text>
-            </View> 
-        )
-    }
-    _randomCount(min, max){
-        return Math.floor(Math.random()*8)+0;
-    }
-    _random(width,height) {
-        // console.log("random",Math.floor(Math.random()*(width-20)) +(height-20));
-        var w=Math.floor(Math.random()*150) +1;
-        var h=Math.floor(Math.random()*120) +1;
-        var a={"w":w,"h":h};
-        console.log(a);
-        return a;
-    }
-    _renderPlaying=(item)=>{
-        const a= this._randomCount();
-        console.log("render",mp3Data[a]);
-        return(
-                <View style={styles.horizontalContainer}>
                     <View style={styles.containerPlaying}>
-                        <Ionicons name="ios-pause" type="ionicon" size={35} color="#f5f5f5" 
-                            style={{justifyContent:'center',alignSelf:'center',position:'absolute'}}/>
-                            {
-                                mp3Data[a]["data"]!=null?
-                                    <Image source={{uri: mp3Data[a]["data"]}}
-                                        style={{height:'100%', width: '100%',position:'absolute'}}
-                                        resizeMethod='scale'
-                                        zIndex={3}/>
-                                :null
-                            }
+                        {
+                            (this.props.MainReducer.itemListSelected.findIndex(x =>x.key===item.key)==-1)?
+                                <TouchableOpacity  onPress={()=>this._onPressItemForStoraging(item)} style={{justifyContent:'flex-end',alignSelf:'flex-end',top:0,position:'absolute'}}>
+                                    <Ionicons name="ios-add-circle" type="ionicon" size={30} color="#a6e22a"/>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity  onPress={()=>this._onPressItemForStoraging(item)} style={{justifyContent:'flex-end',alignSelf:'flex-end',top:0,position:'absolute'}}>
+                                    <Ionicons name="ios-close-circle" type="ionicon" size={30} color="#f45530"/>
+                                </TouchableOpacity> 
+                        }
                     </View>
                     <View style={styles.horizontalContainerAbsolute}>
                         <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
@@ -86,26 +68,60 @@ class ListItem extends Component{
                             style={{width:150,height:120, borderTopLeftRadius:20,borderTopRightRadius:20}}/>
                         <Text style={styles.titleItem}>{item.key}</Text>
                     </View>
-                </View> 
+            </View> 
+        )
+    }
+    _randomCount(min, max){
+        return Math.floor(Math.random()*8)+0;
+    }
+    _renderPlaying=(item)=>{
+        console.log(this.state);
+        const a= this._randomCount();
+        return(
+                    <View style={styles.horizontalContainer}>
+                        <View style={styles.containerPlaying}>
+                            <Ionicons name="ios-pause" type="ionicon" size={35} color="#f5f5f5" 
+                                style={{justifyContent:'center',alignSelf:'center',position:'absolute'}}/>
+                                {
+                                    mp3Data[a]["data"]!=null?
+                                        <Image source={{uri: mp3Data[a]["data"]}}
+                                            style={{height:'100%', width: '100%',position:'absolute'}}
+                                            resizeMethod='scale'
+                                            zIndex={3}/>
+                                    :null   
+                                }
+                            
+                        </View>
+                        <View style={styles.horizontalContainerAbsolute}>
+                            <Image source={{uri : item.img!=null?item.img:nullImg.nil}}
+                                resizeMethod={'scale'}    
+                                style={{width:150,height:120, borderTopLeftRadius:20,borderTopRightRadius:20}}/>
+                            <Text style={styles.titleItem}>{item.key}</Text>
+                        </View>
+                    </View>     
+
         )
     }
     render(){
-        
+        console.log("itemmmm",this.props);
         const {item}= this.props.dataSound;
         return(
-            <TouchableOpacity onPress={()=>this._onPressItem(item)}>
+            // <TouchableOpacity onPress={()=>this._onPressItem(item)}>
+            <View>
                  {this.state.isPlaying?
                    this._renderPlaying(item)
                     :
                     this._renderNoPlaying(item)
                 }
-            </TouchableOpacity>
+                </View>
+            // </TouchableOpacity>
         )
     }
 }
-const mapStateToProps=({SoundTappedReducer})=>{
+const mapStateToProps=({SoundTappedReducer,MainReducer})=>{
     return{
-        SoundTappedReducer
+        SoundTappedReducer,
+        MainReducer
     }
 }
 export default connect(mapStateToProps,actions)(ListItem);
@@ -212,6 +228,6 @@ const styles= StyleSheet.create({
         bottom:0,
         right:0,
         left:0,
-        zIndex:2,
+        zIndex:7,
     }
 })
