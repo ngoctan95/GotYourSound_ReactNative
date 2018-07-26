@@ -21,12 +21,8 @@ class ListItem extends Component{
                 this.props.dataSound.item.key === this.props.SoundTappedReducer.itemSelected.key))?
                 nextProps.SoundTappedReducer.isPlaying:false,
             itemListSelected:[],
+            }
         }
-    }
-    componenDidMount(){
-        // console.log("itemmm",this.props);
-       
-    }
     componentWillReceiveProps=(nextProps)=>{
        console.log("itemmmm",nextProps);
         if(nextProps !=null){
@@ -78,14 +74,6 @@ class ListItem extends Component{
     _randomCount(min, max){
         return Math.floor(Math.random()*8)+0;
     }
-    _random(width,height) {
-        // console.log("random",Math.floor(Math.random()*(width-20)) +(height-20));
-        var w=Math.floor(Math.random()*150) +1;
-        var h=Math.floor(Math.random()*120) +1;
-        var a={"w":w,"h":h};
-        console.log(a);
-        return a;
-    }
     _renderPlaying=(item)=>{
         console.log(this.state);
         const a= this._randomCount();
@@ -111,6 +99,7 @@ class ListItem extends Component{
                             <Text style={styles.titleItem}>{item.key}</Text>
                         </View>
                     </View>     
+
         )
     }
     render(){
