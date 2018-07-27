@@ -58,10 +58,17 @@ export default (state=INITSTATE,action)=>{
             }
         }
         case types.LS_TAPPED_ITEM_FOR_STORAGING:{
-            console.log("payload----",action);
+            
             return{
                 ...state,
                 itemListSelected: [...action.itemListSelected,action.payload],
+            }
+        }
+        case types.LS_TAPPED_ITEM_FOR_REMOVE_STORAGING:{
+            console.log("payload----",action);
+            return{
+                ...state,
+                itemListSelected: action.itemListSelected.filter(item => item.key!==action.payload.key)
             }
         }
         default:{
