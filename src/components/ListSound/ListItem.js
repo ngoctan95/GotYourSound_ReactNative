@@ -46,6 +46,9 @@ class ListItem extends Component{
     _onPressItemForStoraging=(item)=>{
         this.props.tappedItemForStoraging(this.state.itemListSelected,item);
     }
+    _onPressItemForRemoveStoraging=(item)=>{
+        this.props.tappedItemForRemoveStoraging(this.state.itemListSelected,item);
+    }
     _renderNoPlaying=(item)=>{
         console.log("dadada",this.props.MainReducer.itemListSelected.findIndex(x =>x.key===item.key));
         return(
@@ -57,7 +60,7 @@ class ListItem extends Component{
                                     <Ionicons name="ios-add-circle" type="ionicon" size={30} color="#a6e22a"/>
                                 </TouchableOpacity>
                                 :
-                                <TouchableOpacity  onPress={()=>this._onPressItemForStoraging(item)} style={{justifyContent:'flex-end',alignSelf:'flex-end',top:0,position:'absolute'}}>
+                                <TouchableOpacity  onPress={()=>this._onPressItemForRemoveStoraging(item)} style={{justifyContent:'flex-end',alignSelf:'flex-end',top:0,position:'absolute'}}>
                                     <Ionicons name="ios-close-circle" type="ionicon" size={30} color="#f45530"/>
                                 </TouchableOpacity> 
                         }
@@ -106,15 +109,15 @@ class ListItem extends Component{
         console.log("itemmmm",this.props);
         const {item}= this.props.dataSound;
         return(
-            // <TouchableOpacity onPress={()=>this._onPressItem(item)}>
-            <View>
+            <TouchableOpacity onPress={()=>this._onPressItem(item)}>
+            {/* <View> */}
                  {this.state.isPlaying?
                    this._renderPlaying(item)
                     :
                     this._renderNoPlaying(item)
-                }
-                </View>
-            // </TouchableOpacity>
+                } 
+                {/* </View> */}
+            </TouchableOpacity>
         )
     }
 }
