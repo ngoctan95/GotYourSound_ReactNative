@@ -8,6 +8,7 @@ const INITSTATE={
     isPlaying:false,
     vol:50,
     itemListSelected:[],
+    countNotification:0,
 }
 export default (state=INITSTATE,action)=>{
     console.log("actionMain",action);
@@ -62,13 +63,15 @@ export default (state=INITSTATE,action)=>{
             return{
                 ...state,
                 itemListSelected: [...action.itemListSelected,action.payload],
+                countNotification:action.itemListSelected.length + 1,
             }
         }
         case types.LS_TAPPED_ITEM_FOR_REMOVE_STORAGING:{
             console.log("payload----",action);
             return{
                 ...state,
-                itemListSelected: action.itemListSelected.filter(item => item.key!==action.payload.key)
+                itemListSelected: action.itemListSelected.filter(item => item.key!==action.payload.key),
+                countNotification:action.itemListSelected.length-1
             }
         }
         default:{

@@ -5,14 +5,15 @@ import {
     Image,
     StyleSheet,
     TouchableOpacity,
-    ActivityIndicator
+    ActivityIndicator,
+    Platform
 } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/index';
 import * as types from '../../actions/Types/types';
 import mp3Data from '../../constant/mp3_info.json';
-
+const iOSPlatForm = Platform.OS==="ios"?true:false;
 class ListItem extends Component{
     constructor(props){
         super(props);
@@ -57,11 +58,11 @@ class ListItem extends Component{
                         {
                             (this.props.MainReducer.itemListSelected.findIndex(x =>x.key===item.key)==-1)?
                                 <TouchableOpacity  onPress={()=>this._onPressItemForStoraging(item)} style={{justifyContent:'flex-end',alignSelf:'flex-end',top:0,position:'absolute'}}>
-                                    <Ionicons name="ios-add-circle" type="ionicon" size={30} color="#a6e22a"/>
+                                    <Ionicons name="ios-add-circle" type="ionicon" size={35} color="#a6e22a"/>
                                 </TouchableOpacity>
                                 :
                                 <TouchableOpacity  onPress={()=>this._onPressItemForRemoveStoraging(item)} style={{justifyContent:'flex-end',alignSelf:'flex-end',top:0,position:'absolute'}}>
-                                    <Ionicons name="ios-close-circle" type="ionicon" size={30} color="#f45530"/>
+                                    <Ionicons name="ios-remove-circle" type="ionicon" size={35} color="#f45530"/>
                                 </TouchableOpacity> 
                         }
                     </View>
@@ -83,7 +84,7 @@ class ListItem extends Component{
         return(
                     <View style={styles.horizontalContainer}>
                         <View style={styles.containerPlaying}>
-                            <Ionicons name="ios-pause" type="ionicon" size={35} color="#f5f5f5" 
+                            <Ionicons name={iOSPlatForm?"ios-headset":"md-headset"} type="ionicon" size={35} color="#f5f5f5" 
                                 style={{justifyContent:'center',alignSelf:'center',position:'absolute'}}/>
                                 {
                                     mp3Data[a]["data"]!=null?
@@ -227,9 +228,9 @@ const styles= StyleSheet.create({
         position:'absolute',
         justifyContent:'center',
         alignContent:'center',
-        top:0,
+        top:2,
         bottom:0,
-        right:0,
+        right:3,
         left:0,
         zIndex:7,
     }

@@ -56,6 +56,7 @@ export const tappedItemForRemoveStoraging=(itemListSelected,item)=>{
     return{
         type:types.LS_TAPPED_ITEM_FOR_REMOVE_STORAGING,
         payload:item,
-        itemListSelected:itemListSelected
+        itemListSelected:itemListSelected,
+        length:itemListSelected.length
     }
 }
