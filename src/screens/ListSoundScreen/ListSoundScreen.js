@@ -110,7 +110,7 @@ const nullImg={
 }
 const mapStateToProps=({ListSoundReducer})=>{
     return{
-        ListSoundReducer 
+        ListSoundReducer ,
     }
 }
 export default connect(mapStateToProps,actions)(ListSoundScreen);
