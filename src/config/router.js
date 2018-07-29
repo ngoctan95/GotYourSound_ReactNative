@@ -18,18 +18,32 @@ export const MainScreenStack = StackNavigator({
         navigationOptions:({navigation})=>({
             title :'Home',
             headerTitle:'Main'
-        }),
+        })}
     },
-});
+    {
+        headerMode:'none',
+        navigationOptions:{
+            headerVisible:false,
+            gesturesEnabled:false
+        }
+    }
+);
 export const ListSoundScreenStack = StackNavigator({
     ListSoundScreen:{
         screen: ListSoundScreen,
         navigationOptions:({navigation})=>({
             title:'Sounds',
             headerTitle:'Sound list'
-        }),
+        })}
     },
-});
+    {
+        headerMode: 'none',
+        navigationOptions: {
+            headerVisible: false,
+            gesturesEnabled:false
+        }
+    }
+);
 export const ConfigurationScreenStack = StackNavigator({
     ConfigurationScreen:{
         screen: ConfigurationScreen,
@@ -52,11 +66,12 @@ export const TabNav = TabNavigator({
     
     ListSoundScreen:{
         screen: ListSoundScreenStack,
-        navigationOptions:{
+        navigationOptions:({navigation})=>({
             tabBarLabel:'Listed',
             tabBarIcon:({tintColor})=> <Icon name={iOSPlatform?"ios-list":"md-list"} color={tintColor} size={30} type='ionicon'></Icon>,
-            tabBarOptions:{activeTintColor:'orange'}
-        },
+            tabBarOptions:{activeTintColor:'#f92660'},
+            // tabBarVisible: 
+        }),
     },
     MainScreen:{
         screen: MainScreenStack,
@@ -65,7 +80,7 @@ export const TabNav = TabNavigator({
         tabBarIcon:({tintColor})=>(
             <Notification tintColor={tintColor}/>
         ),
-            tabBarOptions:{activeTintColor:'orange'}
+            tabBarOptions:{activeTintColor:'#f92660'}
         },
     },
     ConfigurationScreen:{
@@ -73,10 +88,18 @@ export const TabNav = TabNavigator({
         navigationOptions:{
             tabBarLabel:'Setting ',
             tabBarIcon:({tintColor})=> <Icon name={iOSPlatform?"ios-construct":"md-construct"} color={tintColor} size={25} type={'ionicon'}/>,
-            tabBarOptions:{activeTintColor:'orange'}
+            tabBarOptions:{activeTintColor:'#f92660'}
         }
     }
-});
+},
+{
+    tabBarOptions: {
+        activeTintColor:'#f92660',
+        style: { backgroundColor: 'black',opacity:1,background:null},
+        tabsStyle: { tabBarBackgroundColor: '#000', tabBarButtonColor: '#f92660', tabBarSelectedButtonColor: '#fff', }
+    }
+}
+);
 
 export const Root = StackNavigator({
     SplashScreen:{
@@ -88,5 +111,8 @@ export const Root = StackNavigator({
 },
 {
     mode:'card',
-    headerMode:'none'
+    headerMode:'none',
+    transitionConfig: () => ({
+        containerStyle: {},
+        }), 
 });

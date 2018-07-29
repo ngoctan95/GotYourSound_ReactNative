@@ -3,10 +3,14 @@ import {
     Text,
     View,
     FlatList,
-    StyleSheet
+    StyleSheet,
+    StatusBar,
+    ImageBackground,
+    ScrollView
 } from 'react-native';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/HomeActions/HomeActions';
+import MainItem from '../../components/MainSound/MainItem';
 class MainScreen extends Component{
     constructor(props){
         super(props);
@@ -27,34 +31,39 @@ class MainScreen extends Component{
                 itemSelected:this.props.MainReducer.itemSelected!=null?this.props.MainReducer.itemSelected:this.state.itemSelected,
             })
         }
-        this.forceUpdate();
+        // this.forceUpdate();
     }
     _renderItem=(item)=>{
         console.log("itemmain",item);
         return(
-            <View>
-                <Text>pokok</Text>
+            <View style={styles.itemContainer}>
+                
             </View>
         )
     }
+    
     render(){
         console.log("mainnnn",this.props.MainReducer);
-        // const {itemSelected} =this.props.MainReducer.itemSelected;
         return(
             <View style={styles.mainContainer}>
-                {/* <FlatList 
-                    data={this.state.itemSelected}
-                    renderItem={this._renderItem}
-                    keyExtractor={(item,index)=>index.toString()}
-                    /> */}
-                    {this.props.MainReducer.itemListSelected.length>0?
-                    this.props.MainReducer.itemListSelected.map((item)=>{
-                        return (
-                            <Text>{item.key} + dasda</Text>
-                        )
-                    }):null}
-                    
-
+            <ImageBackground source={ require("../../assets/images/bg5.jpg")} style={{resizeMode:'stretch',flex:1,justifyContent:'center',opacity:1}}> 
+                <StatusBar
+                        backgroundColor="blue"
+                        barStyle="light-content"
+                    />
+                <View style={{height:20,width:'100%'}}></View> 
+                    <ScrollView >
+                        {
+                            
+                            this.props.MainReducer.itemListSelected.length>0?
+                            this.props.MainReducer.itemListSelected.map((item,index)=>{
+                            return (
+                                <MainItem data={item} index={index}/>
+                            )})
+                            :null
+                        }
+                    </ScrollView>
+                    </ImageBackground>
             </View>
         )
     }
