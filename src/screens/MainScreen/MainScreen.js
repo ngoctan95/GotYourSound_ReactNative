@@ -16,22 +16,23 @@ class MainScreen extends Component{
         super(props);
         this.state={
             itemSelected: this.props.MainReducer.itemSelected!=null?this.props.MainReducer.itemSelected:[],
+            itemListSelectedPlaying:this.props.MainReducer.itemListSelectedPlaying!=null?this.props.MainReducer.itemListSelectedPlaying:[],
         }
     }
     componentWillMount(){
-        console.log("Main _ Willmount",this.props);
+        console.log("MAIN _ Willmount",this.props);
     }
     componentDidMount(){
-        console.log("MAINNNNNNNNNNNNN _didmount",this.props);
+        console.log("MAINN _didmount",this.props);
     }
     componentWillReceiveProps(nextProps){
-        console.log("MAINNNNNNNNNNN",nextProps);
+        console.log("MAIN_NEXTPROPS",nextProps);
         if(nextProps!=null){
             this.setState({
-                itemSelected:this.props.MainReducer.itemSelected!=null?this.props.MainReducer.itemSelected:this.state.itemSelected,
+                itemSelected:[...this.state.itemSelected,this.props.MainReducer.itemListSelected],
             })
         }
-        // this.forceUpdate();
+        // this.props.tappedPlayItemM(this.props.MainReducer.itemListSelectedPlaying,null);
     }
     _renderItem=(item)=>{
         console.log("itemmain",item);
@@ -58,7 +59,7 @@ class MainScreen extends Component{
                             this.props.MainReducer.itemListSelected.length>0?
                             this.props.MainReducer.itemListSelected.map((item,index)=>{
                             return (
-                                <MainItem data={item} index={index}/>
+                                <MainItem data={item} index={index} key={index}/>
                             )})
                             :null
                         }

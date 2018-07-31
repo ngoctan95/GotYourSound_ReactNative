@@ -8,6 +8,7 @@ const INITSTATE={
     isPlaying:false,
     vol:50,
     itemListSelected:[],
+    itemListSelectedPlaying:[],
     countNotification:0,
 }
 export default (state=INITSTATE,action)=>{
@@ -41,18 +42,7 @@ export default (state=INITSTATE,action)=>{
                 isRemoveAll:true,
             }
         }
-        case types.M_TAPPED_PLAY:{
-            return{
-                itemSelected:action.payload,
-                isLoading:true,
-            }
-        }
-        case types.M_UN_TAPPED_PLAY:{
-            return{
-                itemSelected:action.payload,
-                isLoading:false,
-            }
-        }
+        
         case types.M_CHANGE_VOL:{
             return{
                 vol:action.vol,
@@ -67,11 +57,17 @@ export default (state=INITSTATE,action)=>{
             }
         }
         case types.LS_TAPPED_ITEM_FOR_REMOVE_STORAGING:{
-            console.log("payload----",action);
+            
             return{
                 ...state,
                 itemListSelected: action.itemListSelected.filter(item => item.key!==action.payload.key),
                 countNotification:action.itemListSelected.length-1
+            }
+        }
+        case types.MI_TAPPED_PLAY:{
+            return{
+                ...state,
+                itemListSelectedPlaying:(action.itemListSelectedPlaying)
             }
         }
         default:{

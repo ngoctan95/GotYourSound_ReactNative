@@ -16,9 +16,11 @@ export const loadErrorSoundM=(err)=>{
         payload:err
     }
 }
-export const tappedPlayItemM=(item)=>{
+export const tappedPlayItemM=(itemListSelectedPlaying,item)=>{
+    console.log("#########",itemListSelectedPlaying, item);
     return{
-        type:types.M_TAPPED_PLAY,
+        type:types.MI_TAPPED_PLAY,
+        itemListSelectedPlaying:itemListSelectedPlaying,
         payload:item
     }
 }
