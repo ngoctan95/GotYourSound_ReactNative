@@ -3,14 +3,14 @@ import SoundPlayer from 'react-native-sound-player';
 import {
     Alert 
 } from 'react-native';
-// import MusicControl from 'react-native-music-control';
 import Sound from 'react-native-sound';
+
 function _loadDataSoundFromJson(){
     return new Promise((resolve,reject)=>{
         if (soundData){
             setTimeout(function(){
                 resolve(soundData)
-            },1500) 
+            },10) 
             
         }else{
             reject("No data found")
@@ -68,7 +68,6 @@ function _playItemAudioLS(item){
                 }
             }else{
                 Sound.setActive(false);
-                Sound.release();
                 resolve (false);
             }
         }else{

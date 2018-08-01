@@ -8,7 +8,9 @@ import {
     TouchableOpacity,
     Image,
     ActivityIndicator,
-    Animated
+    Animated,
+    Platform,
+    StatusBar,ImageBackground
 } from 'react-native';
 import  {connect} from 'react-redux';
 import * as actions from '../../actions/ListSoundActions/ListSoundActions';
@@ -17,18 +19,28 @@ import ListItemVertical from '../../components/ListSound/ListItemVertical';
 const nullImg={
     nil:require("../../assets/images/nil.jpg"),
 }
+import GestureRecognizer, {swipeDirections} from 'react-native-swipe-gestures';
 
  class ListSoundScreen extends Component{
+     static navigationOptions=({navigation})=>{
+            return{
+                tabBarLabel:'Listed',
+                tabBarIcon:({tintColor})=> <Icon name={iOSPlatform?"ios-list":"md-list"} color={tintColor} size={30} type='ionicon'></Icon>,
+                tabBarOptions:{activeTintColor:'orange'},
+                // tabBarVisible: navigation.state.params.isShow
+            }
+     }
      constructor(props){
         super(props);
         this.state={
             dataSound:[],
             isPlaying:this.props.ListSoundReducer.isPlaying,
             animIndicator:  new Animated.Value(0),
+            visible:false
         }
      }
      componentDidMount(){
-        console.log("ListSound _ Willmount",this.props);
+        // console.log("ListSound _ Willmount",this.props);
         this.props.loadingSoundLS();
 
         /**Do animation */
@@ -37,12 +49,12 @@ const nullImg={
             {
                 fromValue:0,
                 toValue:1,
-                duration:1000
+                duration:1
             }
         ).start();
      }
     componentWillMount(){
-        console.log("render", new Date().toDateString());
+        // console.log("render", new Date().toDateString());
     }
     componentWillReceiveProps=(nextProps)=>{
         // console.log("nextProps",nextProps);
@@ -73,6 +85,7 @@ const nullImg={
     _renderListItemVertical=(item,index)=>{
         return(
             <View style={styles.mainContainer}>
+                
                 <ListItemVertical data = {item}/>
                 <View style={styles.horizontalViewContainer}> 
                         <FlatList 
@@ -93,24 +106,46 @@ const nullImg={
             </Animated.View>
         )
     }
+    onSwipeUp(gestureState) {
+        // this.setState({myText: 'You swiped up!'});
+        console.log("==========UPNE",this.props);
+        // this.setState({
+        //     visible:true
+        // })
+        this.props.navigation.setParams({'isShow': true});
+      }
     render(){
         return(
             <View style={styles.mainContainer}>
-                {this.props.ListSoundReducer.isLoading?
-                    this._renderActivityIndicator():
-                    <FlatList   
-                        style={{flex:1}} 
-                        data={this.state.dataSound} 
-                        keyExtractor={(item,index)=>index.toString()}
-                        renderItem={(item,index)=> this._renderListItemVertical(item,index) }/>
-                }
+           {/* <GestureRecognizer style={styles.mainContainer}
+           onSwipeUp={(state) => this.onSwipeUp(state)}> */}
+           
+                <StatusBar
+                    backgroundColor="blue"
+                    barStyle="light-content"
+                />
+                <ImageBackground source={ require("../../assets/images/bg5.jpg")} style={{resizeMode:'stretch',flex:1,justifyContent:'center',opacity:1}}> 
+                    <View style={{height:20,width:'100%'}}></View> 
+                    
+                        {this.props.ListSoundReducer.isLoading?
+                            this._renderActivityIndicator():
+                            <FlatList 
+                                style={{flex:1}} 
+                                data={this.state.dataSound} 
+                                keyExtractor={(item,index)=>index.toString()}
+                                renderItem={(item,index)=> this._renderListItemVertical(item,index) }/>
+                        }
+    
+                </ImageBackground>
+            
+            {/* </GestureRecognizer> */} 
             </View>
-        )
+        ) 
     }
 }
 const mapStateToProps=({ListSoundReducer})=>{
     return{
-        ListSoundReducer 
+        ListSoundReducer ,
     }
 }
 export default connect(mapStateToProps,actions)(ListSoundScreen);
@@ -119,6 +154,7 @@ const styles= StyleSheet.create({
     mainContainer:{
         flex:1,
         justifyContent:'center',
+        // backgroundColor:'#181f26'
     },
     verticalContainer:{
 
@@ -169,7 +205,8 @@ const styles= StyleSheet.create({
     },
     horizontalViewContainer:{
         marginLeft:10,
-        marginRight:10
+        marginRight:10,
+        marginTop:10,
     },
     titleItem:{
         justifyContent:'center',

@@ -5,7 +5,8 @@ import {
     TouchableOpacity,
     StyleSheet,
     Slider,
-    Image
+    Image,
+    Platform
 } from 'react-native';
 import {connect} from 'react-redux';
 import * as actions from '../../actions/ListSoundActions/ListSoundActions';
@@ -65,9 +66,13 @@ const styles= StyleSheet.create({
     mainContainer:{
         flex:1,
         justifyContent:'center',
+        marginTop:Platform.OS==="ios"?14:0,
     },
     verticalContainerTitle:{
-        margin:10,
+        marginLeft:10,
+        marginRight:10,
+        marginTop:5,
+        marginBottom:5,
         fontSize:25,
         flexDirection:'row',
         justifyContent:'center',
@@ -98,7 +103,8 @@ const styles= StyleSheet.create({
     verticalTitle:{
         fontWeight:'bold',
         marginLeft:10,
-        fontSize:17
+        fontSize:17,
+        color:'white',
     },
     verticalTitleMarginRight:{
         textAlign:'right',
