@@ -11,7 +11,7 @@ import * as types from '../../actions/Types/types';
 export function* watchPlayListItemSoundAsync(item){
     console.log("@#@#@#@#@",item);
     try{
-        yield call (requestServiceM.playListItemSound,item);
+        // yield call (requestServiceM.playListItemSound,item);
 
     }catch(error){
 
@@ -19,7 +19,7 @@ export function* watchPlayListItemSoundAsync(item){
 }
 function* watchAll(){
     yield all([
-        takeEvery(types.MI_TAPPED_PLAY,watchPlayListItemSoundAsync), 
+        // takeEvery(types.MI_TAPPED_PLAY,watchPlayListItemSoundAsync), 
     ])
 }
 export default watchAll;

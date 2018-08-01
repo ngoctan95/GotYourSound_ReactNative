@@ -30,10 +30,12 @@ export function* watchLoadDataAsync(action){
  */
 export function* watchPlayTappedItemAsync(item){
     try{
-        yield put(actions.playTappedItem(item));
-        let isDone = yield call (requestServiceLS.playTappedItemLS,item);
-        console.log("res",isDone);
-        yield put(actions.stopTappedItem(isDone));
+        // async =()=>{
+            yield put(actions.playTappedItem(item));
+            let isDone = yield call (requestServiceLS.playTappedItemLS,item);
+            console.log("res",isDone);
+            yield put(actions.stopTappedItem(isDone));
+        // }
     }catch(err){
         console.log("err",err);
     }

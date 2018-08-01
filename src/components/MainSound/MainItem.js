@@ -16,6 +16,7 @@ const {width,height} = Dimensions.get("window");
 import Ionicon from 'react-native-vector-icons/Ionicons';
 const iOS = Platform.OS==='ios'?true:false;
 import SystemSetting from 'react-native-system-setting';
+import Sound from 'react-native-sound';
 
 class MainItem extends Component{
     constructor(props){
@@ -25,50 +26,58 @@ class MainItem extends Component{
         }
     }
     componentWillMount(){
-        // console.log("mainitem======",this.props);
+        console.log("mainitem======",this.props);
         SystemSetting.setVolume(0.5);
     }
+    
     componentWillReceiveProps(nextProps){
         console.log("mainitemprops",nextProps);
         if(nextProps!=null){
-            // this.setState({
-            //     itemListSelectedPlaying:null,
-            //     itemListSelectedPlaying:[...this.state.itemListSelectedPlaying,nextProps.MainReducer.itemListSelectedPlaying]
-            // })
+
         }
-        // console.log("^^^^^^^^",this.state);
     }
+
     _onPressPlayingItem=(item)=>{
         console.log('CLICKED ....... :',this.props);
         var newItemListSelectedPlaying=(this.props.MainReducer.itemListSelectedPlaying.findIndex(itemx => itemx.key === item.key)<0)?
             [...this.props.MainReducer.itemListSelectedPlaying,item]:
             this.props.MainReducer.itemListSelectedPlaying.filter(itemx=>itemx.key!=item.key);
         this.props.tappedPlayItemM(newItemListSelectedPlaying,item);
+        // this._playingItemSound(item,this._isSelectedPlaying());
+    }
+    _stopPlayingItemSound=(item)=>{
 
-        // const Sound = require('react-native-sound');
-        // Sound.setCategory("Playback");
-        // Sound.setActive(true);
+    }
+    _playingItemSound=(item,isPlaying)=>{
         
-        // // console.log("&&&&&&",item.itemListSelectedPlaying[i].music);
-        // var whoosh = new Sound(item.music.concat('.mp3'), Sound.MAIN_BUNDLE, (error) => {
-        //     if (error) {
-        //         Alert.alert(
-        //             'Failure',
-        //             'Got failure while loading this sound for you guy',
-        //             [],
-        //             { cancelable: false }
-        //           );
-        //       resolve(false);
-        //     }else{ 
-        //             whoosh.play((success)=>{ 
-        //                 if (success) {
-        //                     whoosh.play();
-        //                 } else {
-        //                 //   console.log('playback failed due to audio decoding errors');
-        //                 }
-        //             });
-        //     }
-        //   });
+        Sound.setCategory("Playback");
+        Sound.setActive(true);
+        
+        // console.log("&&&&&&",item.itemListSelectedPlaying[i].music);
+        if(isPlaying){
+            var whoosh = new Sound(item.music.concat('.mp3'), Sound.MAIN_BUNDLE, (error) => {
+                if (error) {
+                    Alert.alert(
+                        'Failure',
+                        'Got failure while loading this sound for you guy',
+                        [],
+                        { cancelable: false }
+                    );
+                resolve(false);
+                }else{
+                        whoosh.play((success)=>{ 
+                            if (success) {
+                                whoosh.play();
+                            } else {
+                            //   console.log('playback failed due to audio decoding errors');
+                            }
+                        });
+                }
+            });
+        }else{
+            Sound.release;
+            Sound.pause;
+        }
     }
     _isSelectedPlaying(){ 
         return this.props.MainReducer.itemListSelectedPlaying.findIndex(item => item.key===this.props.data.key); 

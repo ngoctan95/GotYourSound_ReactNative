@@ -25,7 +25,7 @@ class ListItem extends Component{
             }
         }
     componentWillReceiveProps=(nextProps)=>{
-       console.log("itemmmm",nextProps);
+    //    console.log("itemmmm",nextProps);
         if(nextProps !=null){
             if(nextProps.SoundTappedReducer!=null){
                 this.setState({
@@ -51,7 +51,7 @@ class ListItem extends Component{
         this.props.tappedItemForRemoveStoraging(this.state.itemListSelected,item);
     }
     _renderNoPlaying=(item)=>{
-        console.log("dadada",this.props.MainReducer.itemListSelected.findIndex(x =>x.key===item.key));
+        // console.log("dadada",this.props.MainReducer.itemListSelected.findIndex(x =>x.key===item.key));
         return(
             <View style={styles.horizontalContainerNoPlaying}>
                     <View style={styles.containerPlaying}>
@@ -107,7 +107,7 @@ class ListItem extends Component{
         )
     }
     render(){
-        console.log("itemmmm",this.props);
+        // console.log("itemmmm",this.props);
         const {item}= this.props.dataSound;
         return(
             <TouchableOpacity onPress={()=>this._onPressItem(item)}>
